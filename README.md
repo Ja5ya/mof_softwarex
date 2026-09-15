@@ -22,7 +22,7 @@ model configuration per task — not just "highest AUC wins."
 ## Install
 
 ```bash
-git clone https://github.com/YOUR_GITHUB_ORG/multi_objective_framework.git
+git clone https://github.com/Ja5ya/mof_softwarex.git
 cd multi_objective_framework
 python -m venv .venv && source .venv/bin/activate
 pip install -r requirements.txt
