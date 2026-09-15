@@ -49,8 +49,8 @@ __MOF fixes__ the Lagrangian frontier and shadow-price machinery in `mof_analysi
 ## 0. Install and clone
 
 ```bash
-git clone <your-repo-url>
-cd multi_objective_framework
+git clone https://github.com/Ja5ya/mof_softwarex.git
+cd mof_softwarex
 python -m venv .venv && source .venv/bin/activate
 pip install -r requirements.txt
 ```
@@ -311,4 +311,5 @@ Training and XAI scripts are not required at this level.
 |----------|----------|
 | [DATA_CONTRACT.md](DATA_CONTRACT.md) | Pickle and artefact schemas, config reference |
 | [REPOSITORY_SCOPE.md](REPOSITORY_SCOPE.md) | What is in-repo vs user-supplied |
+| [SOFTWAREX_CHECKLIST.md](SOFTWAREX_CHECKLIST.md) | GitHub / SoftwareX readiness |
 | [README.md](../README.md) | Install, Slurm reference run, environment variables |

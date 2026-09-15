@@ -205,7 +205,8 @@ assembling frontier datasets.
 | Example | Config | Data mode |
 |---------|--------|-----------|
 | MIMIC F32.9 (public) | `configs/mimic_f329.yaml` | prebuilt |
+| MIMIC six-code test grid | `configs/mimic.yaml` | prebuilt |
+| Psychiatry-ECG transfer | `configs/ecgpsych.yaml` | prebuilt |
 | Romania (private smoke test) | `configs/romania.yaml` | build |
 
-Reference MIMIC dataset builder: `examples/dataset_builders/build_mimic_datasets.py`
-(in this repository). See `docs/REPOSITORY_SCOPE.md`.
+Reference builders: `examples/dataset_builders/`. See [REPOSITORY_SCOPE.md](REPOSITORY_SCOPE.md).
