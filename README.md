@@ -42,7 +42,12 @@ Requirements: Python 3.10+, TensorFlow 2.15+ (`requirements.txt`).
 | [docs/SOFTWAREX_CHECKLIST.md](docs/SOFTWAREX_CHECKLIST.md) | Pre-upload GitHub / SoftwareX checklist |
 | [examples/dataset_builders/](examples/dataset_builders/) | MIMIC / ecgpsych dataset builders |
 
-Architecture figure: `mof_architecture_diagram.png` (regenerate with `python scripts/make_figure.py`).
+Architecture overview:
+
+![MOF three-layer architecture](mof_architecture.png)
+
+Teal = fixed Lagrangian core · Amber = configurable \(f_P\), \(f_S\), \(f_E\) · Gray = swappable dataset / ECG use case.  
+Regenerate with `python scripts/make_figure.py` if you edit the figure script.
 
 ---
 
