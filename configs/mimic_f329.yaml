@@ -1,0 +1,63 @@
+# MIMIC-IV ECG example using pre-built dataset pickles (public reproducible path).
+# Dataset construction is external — see docs/DATA_CONTRACT.md and the reference
+# builder in the parent multi_objective_framework repository.
+#
+# Usage:
+#   source configs/env.mimic
+#   python src/train_multi_f_array.py --config configs/mimic_f329.yaml --task-id 0
+
+name: mimic_f329
+
+# Writable run root for hyper_sweep, xai_results, and analysis artifacts.
+output_root: /path/to/writable/mof_runs/mimic_f329
+
+# Read pickles produced by an external dataset builder (not in-repo).
+data:
+  mode: prebuilt
+  prebuilt_root: null   # set MOF_PREBUILT_ROOT (see configs/env.mimic)
+
+ecg:
+  n_leads: 12
+  signal_len: 5000
+
+diagnoses:
+  codes:
+    - F329
+
+demographic_matching:
+  age_tolerance: 5
+  match_gender: true
+  match_age: true
+
+training:
+  learning_rates: [1.0e-5, 5.0e-5, 1.0e-4, 5.0e-4, 1.0e-3]
+  dropout_rates: [0.0, 0.05, 0.1, 0.2, 0.3, 0.5]
+  architectures: [st_cnn, resnet1d]
+  batch_size: 32
+  epochs: 50
+  random_state: 42
+  threshold: 0.5
+
+xai:
+  n_samples: 200
+  shap_bg: 50
+  default_best:
+    arch: st_cnn
+    lr: "1e-4"
+    dr: "0.1"
+  best_configs: {}
+
+objectives:
+  f_P:
+    metrics: [test_acc_mean, test_precision_mean, test_recall_mean, test_specificity_mean]
+    normalize: per_task_minmax
+  f_S:
+    method: inv_std
+  f_E:
+    components: [continuity_valid, compactness_valid, contrastivity_valid]
+
+analysis:
+  task_column: psych_code
+  recall_min: 0.30
+  recall_metric: test_recall_mean
+

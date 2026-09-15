@@ -1,0 +1,57 @@
+# Local writable run directory (optional default for MOF_DATA_ROOT)
+job_data/
+artifacts/
+
+# Slurm stdout/stderr when logging under repo root
+slurm_logs/
+
+# Data and derived artifacts (do not commit)
+**/shared/
+**/datasets/
+**/hyper_sweep/
+**/xai_results/
+**/logs/
+*.pkl
+*.npz
+*.h5
+*.hdf5
+*.ckpt
+*.pt
+*.pth
+
+# Large tables (keep small config CSVs only if you add them under configs/)
+**/calibration_*.csv
+**/all_runs.csv
+**/bootstrap_results.csv
+
+# Python / Jupyter
+__pycache__/
+*.py[cod]
+.ipynb_checkpoints/
+*.egg-info/
+.eggs/
+dist/
+build/
+.env
+.venv/
+venv/
+
+# OS / editor
+.DS_Store
+*.swp
+*~
+
+# Local env files (keep *.example only)
+configs/env.mimic
+configs/env.romania
+configs/env.ecgpsych
+configs/*.local
+
+# Manuscript / paper artefacts (keep software repo focused)
+main.tex
+main.log
+*.aux
+*.bbl
+*.blg
+ref.bib
+softwarex-osp-template*

@@ -1,0 +1,75 @@
+# MIMIC-IV ECG — all six psychiatric ICD-10 codes (prebuilt pickles).
+# Reduced sweep grid for end-to-end testing (6 tasks: one config per code).
+#
+# Full paper-scale sweep (360 tasks): uncomment the training block marked FULL.
+#
+# Usage:
+#   source configs/env.mimic
+#   bash slurm/submit_train.sh
+#   bash slurm/submit_xai.sh
+
+name: mimic
+
+output_root: /path/to/writable/mof_runs/mimic   # override with MOF_DATA_ROOT
+
+data:
+  mode: prebuilt
+  prebuilt_root: null   # set MOF_PREBUILT_ROOT at runtime (see configs/env.mimic)
+
+ecg:
+  n_leads: 12
+  signal_len: 5000
+
+diagnoses:
+  codes:
+    - F329      # depression (F32.9)
+    - F419      # anxiety (F41.9)
+    - F17200    # nicotine dependence, unspecified
+    - F17210    # nicotine dependence, cigarettes
+    - F0390     # dementia, unspecified
+    - F1010     # alcohol abuse
+
+demographic_matching:
+  age_tolerance: 5
+  match_gender: true
+  match_age: true
+
+# TESTING grid: 6 codes × 1 arch × 1 lr × 1 dr = 6 tasks
+training:
+  architectures: [st_cnn]
+  learning_rates: [1.0e-4]
+  dropout_rates: [0.1]
+  batch_size: 32
+  epochs: 50
+  random_state: 42
+  threshold: 0.5
+
+# FULL paper grid (360 tasks) — replace training block above with:
+# training:
+#   learning_rates: [1.0e-5, 5.0e-5, 1.0e-4, 5.0e-4, 1.0e-3]
+#   dropout_rates: [0.0, 0.05, 0.1, 0.2, 0.3, 0.5]
+#   architectures: [st_cnn, resnet1d]
+
+xai:
+  n_samples: 200
+  shap_bg: 50
+  default_best:
+    arch: st_cnn
+    lr: "1e-4"
+    dr: "0.1"
+  best_configs: {}
+
+objectives:
+  f_P:
+    metrics: [test_acc_mean, test_precision_mean, test_recall_mean, test_specificity_mean]
+    normalize: per_task_minmax
+  f_S:
+    method: inv_std
+  f_E:
+    components: [continuity_valid, compactness_valid, contrastivity_valid]
+
+analysis:
+  task_column: psych_code
+  recall_min: 0.30
+  recall_metric: test_recall_mean
+

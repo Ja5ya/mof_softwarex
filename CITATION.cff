@@ -1,0 +1,36 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite it as below."
+title: "MOF: A configurable multi-objective framework for trustworthy model selection with an ECG classification use case"
+version: 0.2.0
+date-released: 2026-07-15
+authors:
+  - family-names: "Ojha"
+    given-names: "Jaya"
+    email: "jaya.ojha@kristiania.no"
+    affiliation: "Kristiania University of Applied Sciences"
+  - family-names: "El Ganainy"
+    given-names: "Noha"
+    affiliation: "Kristiania University of Applied Sciences"
+  - family-names: "Soylu"
+    given-names: "Ahmet"
+    affiliation: "Kristiania University of Applied Sciences"
+  - family-names: "Yazidi"
+    given-names: "Anis"
+    affiliation: "University of Oslo; OsloMet"
+  - family-names: "Lind"
+    given-names: "Pedro G."
+    affiliation: "Kristiania University of Applied Sciences; OsloMet"
+license: MIT
+repository-code: "https://github.com/YOUR_GITHUB_ORG/multi_objective_framework"
+keywords:
+  - multi-objective optimization
+  - trustworthy AI
+  - electrocardiography
+  - deep learning
+  - explainable AI
+abstract: >
+  MOF is an open-source Python framework for multi-objective trustworthiness
+  analysis under a constrained Lagrangian formulation. It separates dataset
+  supply, modality-specific training/explainability (ECG use case), and a
+  modality-agnostic core that applies configurable f_P, f_S, and f_E formulas
+  and computes feasibility frontiers with shadow prices.

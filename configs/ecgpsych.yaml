@@ -1,0 +1,77 @@
+# Psychiatry-ECG (Tasci / Kaggle) — single binary task for MOF pipeline transfer.
+#
+# Positive: Schizophrenia beats
+# Negative: Bipolar + Depression beats (same acquisition; NOT healthy controls)
+# No subject IDs → beat-level train/test splits (disclose leakage in write-ups).
+#
+# Build pickles first:
+#   python examples/dataset_builders/build_ecgpsych_datasets.py
+# Then:
+#   source configs/env.ecgpsych
+#   bash slurm/submit_train.sh
+
+name: ecgpsych
+
+output_root: /path/to/writable/mof_runs/ecgpsych
+
+data:
+  mode: prebuilt
+  prebuilt_root: null   # set MOF_PREBUILT_ROOT via configs/env.ecgpsych
+
+ecg:
+  n_leads: 12
+  signal_len: 384       # resampled single-beat length (median raw T ≈ 379)
+
+diagnoses:
+  codes:
+    - SCZ
+
+demographic_matching:
+  age_tolerance: 5
+  match_gender: false
+  match_age: false
+  random_state: 42
+
+# Small testing grid: 1 code × 1 arch × 2 lr × 2 dr = 4 tasks
+training:
+  architectures: [st_cnn]
+  learning_rates: [1.0e-4, 5.0e-4]
+  dropout_rates: [0.1, 0.3]
+  batch_size: 32
+  epochs: 50
+  random_state: 42
+  threshold: 0.5
+
+# Larger transfer sweep (optional) — replace training block above with:
+# training:
+#   architectures: [st_cnn, resnet1d]
+#   learning_rates: [1.0e-5, 5.0e-5, 1.0e-4, 5.0e-4, 1.0e-3]
+#   dropout_rates: [0.0, 0.05, 0.1, 0.2, 0.3, 0.5]
+#   batch_size: 32
+#   epochs: 50
+#   random_state: 42
+#   threshold: 0.5
+
+xai:
+  n_samples: 200
+  shap_bg: 50
+  default_best:
+    arch: st_cnn
+    lr: "1e-4"
+    dr: "0.1"
+  best_configs: {}
+
+objectives:
+  f_P:
+    metrics: [test_acc_mean, test_precision_mean, test_recall_mean, test_specificity_mean]
+    normalize: per_task_minmax
+  f_S:
+    method: inv_std
+  f_E:
+    components: [continuity_valid, compactness_valid, contrastivity_valid]
+
+analysis:
+  task_column: psych_code
+  recall_min: 0.30
+  recall_metric: test_recall_mean
+

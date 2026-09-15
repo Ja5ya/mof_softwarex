@@ -1,0 +1,74 @@
+# Romania collected ECG cohort (3ECG_preprocessing_Romania_v7.ipynb output).
+# Example deployment — edit paths if your layout differs.
+
+name: romania
+
+output_root: /path/to/writable/mof_runs/romania
+
+# In-repo dataset build from preprocessed .npy + manifest (private smoke test).
+data:
+  mode: build
+
+ecg:
+  n_leads: 12
+  signal_len: 5000
+  source_len: 10000
+  length_policy: center_crop
+
+input:
+  artifacts_dir: /path/to/romania/preprocessed_ecgs
+  manifest_filename: manifest_v7.csv
+  npy_suffix: "_processed.npy"
+  demographics_path: /path/to/romania/demographics.xlsx
+  manifest_columns:
+    ecg_id_column: ecg_id
+    diagnosis_column: diagnosis
+  demographics_columns:
+    ecg_id_column: "ECG ID"
+    sex_column: sex
+    diagnosis_column: "main psychiatric diagnosis"
+    age_column: null
+
+normal_pool:
+  cases_only: false           # true = skip normals (smoke test only); false = use negative_diagnosis or external pkl
+  negative_diagnosis: F20.0
+  pkl: null
+  external_data_root: null   # or set MOF_NORMAL_DATA_ROOT at runtime
+  external_shared_subdir: shared
+  external_pkl_name: recs_normal.pkl
+
+diagnoses:
+  codes:
+    # - F20.0
+    - F32.10
+  auto_discover: false
+  min_count: 5
+
+demographic_matching:
+  age_tolerance: 5
+  match_gender: true
+  match_age: false
+
+training:
+  learning_rates: [1.0e-5, 5.0e-5, 1.0e-4, 5.0e-4, 1.0e-3]
+  dropout_rates: [0.0, 0.05, 0.1, 0.2, 0.3, 0.5]
+  architectures: [st_cnn, resnet1d]
+  batch_size: 32
+  epochs: 50
+  random_state: 42
+  threshold: 0.5
+
+xai:
+  n_samples: 200
+  shap_bg: 50
+  default_best:
+    arch: st_cnn
+    lr: "1e-4"
+    dr: "0.1"
+  best_configs: {}
+
+analysis:
+  task_column: psych_code
+  recall_min: 0.30
+  recall_metric: test_recall_mean
+
