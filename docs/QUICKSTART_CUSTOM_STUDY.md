@@ -312,9 +312,3 @@ Training and XAI scripts are not required at this level.
 | [DATA_CONTRACT.md](DATA_CONTRACT.md) | Pickle and artefact schemas, config reference |
 | [REPOSITORY_SCOPE.md](REPOSITORY_SCOPE.md) | What is in-repo vs user-supplied |
 | [README.md](../README.md) | Install, Slurm reference run, environment variables |
-
-Regenerate the architecture figure:
-
-```bash
-python scripts/make_figure.py
-```
