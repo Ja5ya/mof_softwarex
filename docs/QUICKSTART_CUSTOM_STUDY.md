@@ -1,9 +1,7 @@
 # Quick start: custom dataset and custom objectives
 
-This guide walks through using the Multi-Objective Framework (MOF) with **your own
-dataset** and **your own definitions** of \(f_P\), \(f_S\), and \(f_E\). It mirrors
-the three-layer architecture figure (`scripts/make_figure.py` →
-`figure1_pipeline_architecture.pdf`).
+This guide walks through using the Multi-Objective Framework (MOF) with __your own
+dataset__ and __your own definitions__ of \(f_P\), \(f_S\), and \(f_E\). 
 
 ---
 
@@ -22,12 +20,12 @@ explainability, or failure on clinically important metrics.
 
 | Objective | Symbol | What it measures (default ECG) |
 |-----------|--------|-------------------------------|
-| **Performance** | \(f_P\) | Bootstrap classification metrics (acc, precision, recall, specificity) |
-| **Stability** | \(f_S\) | Bootstrap variance — penalises configs whose metrics jump under resampling |
-| **Explainability** | \(f_E\) | XAI trustworthiness components (continuity, compactness, contrastivity) |
+| __Performance__ | \(f_P\) | Bootstrap classification metrics (acc, precision, recall, specificity) |
+| __Stability__ | \(f_S\) | Bootstrap variance — penalises configs whose metrics jump under resampling |
+| __Explainability__ | \(f_E\) | XAI trustworthiness components (continuity, compactness, contrastivity) |
 
-**You define** how \(f_P\), \(f_S\), \(f_E\) are computed (YAML, pandas, or custom CSVs).
-**MOF fixes** the Lagrangian frontier and shadow-price machinery in `mof_analysis.py`.
+__You define__ how \(f_P\), \(f_S\), \(f_E\) are computed (YAML, pandas, or custom CSVs).
+__MOF fixes__ the Lagrangian frontier and shadow-price machinery in `mof_analysis.py`.
 
 ### What you get at the end
 
@@ -42,9 +40,9 @@ explainability, or failure on clinically important metrics.
 
 | Colour | Meaning |
 |--------|---------|
-| **Teal** | Fixed MOF core — Lagrangian frontier, shadow prices (`mof_analysis.py`) |
-| **Amber** | User-configurable — objective formulas (`objectives:` in YAML) |
-| **Gray** | Swappable — dataset builder and ECG training/XAI (optional) |
+| __Teal__ | Fixed MOF core — Lagrangian frontier, shadow prices (`mof_analysis.py`) |
+| __Amber__ | User-configurable — objective formulas (`objectives:` in YAML) |
+| __Gray__ | Swappable — dataset builder and ECG training/XAI (optional) |
 
 ---
 
